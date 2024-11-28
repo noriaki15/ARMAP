@@ -8,19 +8,57 @@
     <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
   </head>
-
-  <body>
-    <a-scene
-      vr-mode-ui="enabled: false"
-      arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false;"
+<body style="margin: 0; overflow: hidden;">
+    <a-scene 
+        vr-mode-ui="enabled: false"
+        renderer="logarithmicDepthBuffer: true;"
+        embedded 
+        arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false;"
     >
-      <a-text
-        value="This content will always face you."
-        look-at="[gps-camera]"
-        scale="120 120 120"
-        gps-entity-place="latitude: 33.89064314660105; longitude: 130.71376029038314;"
-      ></a-text>
-      <a-camera gps-camera rotation-reader> </a-camera>
+        <a-assets>
+            <a-asset-item 
+                id="character1-model" 
+                src="yamadakkkkkkkkk.gltf"
+            ></a-asset-item>
+            <a-asset-item 
+                id="character2-model" 
+                src="yamadakkkkkkkkk.gltf"
+            ></a-asset-item>
+            <a-asset-item 
+                id="character3-model" 
+                src="yamadakkkkkkkkk.gltf"
+            ></a-asset-item>
+        </a-assets>
+        <a-entity 
+            gps-entity-place="latitude: 33.89064314660105; longitude: 130.71376029038314"
+            rotation="0 0 0"
+            scale="0.5 0.5 0.5"
+            gltf-model="#character1-model"
+            animation-mixer
+        ></a-entity>
+
+        <a-entity 
+            gps-entity-place="latitude: 33.88990365118122; longitude: 130.71262383277036"
+            rotation="0 90 0"
+            scale="0.4 0.4 0.4"
+            gltf-model="#character2-model"
+            animation-mixer
+        ></a-entity>
+
+        <a-entity 
+            gps-entity-place="latitude: 33.889865800163314; longitude: 130.7126345616065"
+            rotation="0 180 0"
+            scale="0.6 0.6 0.6"
+            gltf-model="#character3-model"
+            animation-mixer
+        ></a-entity>
+
+        <a-camera 
+            gps-camera 
+            rotation-reader 
+            look-controls-enabled='false' 
+            arjs-look-controls='smoothingFactor: 0.1'
+      ><a-camera gps-camera rotation-reader> </a-camera>
     </a-scene>
   </body>
 </html>

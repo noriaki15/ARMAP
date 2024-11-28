@@ -58,16 +58,7 @@
             rotation-reader 
             look-controls-enabled='false' 
             arjs-look-controls='smoothingFactor: 0.1'
-        ></a-camera>
+      <a-camera gps-camera rotation-reader> </a-camera>
     </a-scene>
-
-    <script>
-        window.addEventListener('gps-camera-update-position', function(event) {
-            console.log('Camera Position:', 
-                'Latitude: ' + event.detail.position.latitude, 
-                'Longitude: ' + event.detail.position.longitude
-            );
-        });
-    </script>
-</body>
+  </body>
 </html>

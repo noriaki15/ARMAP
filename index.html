@@ -1,32 +1,29 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>GeoAR.js demo</title>
-    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-  </head>
-<body style="margin: 0; overflow: hidden;">
-    <a-scene 
-        vr-mode-ui="enabled: false"
-        renderer="logarithmicDepthBuffer: true;"
-        embedded 
-        arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false;"
-    >
-<a-entity 
-    position="0 2 -5"
-    geometry="primitive: box; width: 1; height: 1; depth: 1;"
-    material="color: red;"
-></a-entity>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AR.js GPS Example</title>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aframe-gps-component/dist/aframe-gps-component.min.js"></script>
+  <style>
+    body { margin: 0; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <!-- AR.js에 필요한 HTML 설정 -->
+  <a-scene embedded arjs>
+    <a-camera gps-camera></a-camera>
 
-        <a-camera 
-            gps-camera 
-            rotation-reader 
-            look-controls-enabled='false' 
-            arjs-look-controls='smoothingFactor: 0.1'
-      ></a-camera>
-    </a-scene>
-  </body>
+    <!-- GPS 기반으로 오브젝트를 위치시킴 -->
+    <a-entity 
+      gps-entity-place="latitude: 33.88840770067242; longitude: 130.7107514098079;"  <!-- 원하는 GPS 좌표로 변경 -->
+      gltf-model="url(path_to_your_3d_model.glb)"  <!-- 3D 모델 파일 경로 -->
+      scale="1 1 1"
+      rotation="0 180 0">
+    </a-entity>
+  </a-scene>
+</body>
 </html>

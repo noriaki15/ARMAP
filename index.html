@@ -15,18 +15,12 @@
         embedded 
         arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false;"
     >
-        <a-assets>
-            <a-asset-item 
-                id="character1-model" 
-                src="yamadakkkkkkkkk.gltf"
-            ></a-asset-item>
-        </a-assets>
-        <a-entity 
-            gps-entity-place="latitude: 33.88840770067242; longitude: 130.7107514098079;"
-            rotation="0 0 0"
-            scale="1 1 1"
-            gltf-model="#character1-model"
-        ></a-entity>
+<a-entity 
+    gps-entity-place="latitude: 33.88840770067242; longitude: 130.7107514098079;"
+    position="0 2 -5"
+    geometry="primitive: box; width: 1; height: 1; depth: 1;"
+    material="color: red;"
+></a-entity>
 
         <a-camera 
             gps-camera 

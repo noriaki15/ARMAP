@@ -7,9 +7,18 @@
 <script type='text/javascript' src='https://raw.githack.com/AR-js-org/AR.js/3.4.5/aframe/build/aframe-ar.js'></script>
 </head>
 <body>
+    
 <a-scene vr-mode-ui='enabled: false' arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false' renderer='antialias: true; alpha: true'>
     <a-camera gps-new-camera='gpsMinDistance: 5'></a-camera>
-    <a-entity gltf-model="yamadakkkkkkkkk.gltf"  gps-new-entity-place="latitude: 33.89058205440351; longitude: 130.7137912880733" scale="1 1 1"></a-entity>
+    <a-assets>
+<a-asset-item id='orio1' src='yamadakkkkkkkkk.gltf'></a-asset-item></a-assets>
+    <a-entity gltf-model="orio1"  gps-new-entity-place="latitude: 33.89058205440351; longitude: 130.7137912880733" scale="1 1 1"></a-entity>
+    <a-assets>
+<a-asset-item id='orio2' src='yamadakkkkkkkkk.gltf'></a-asset-item></a-assets>
+    <a-entity gltf-model="orio2"  gps-new-entity-place="latitude: 33.89037019290508; longitude: 130.7138598108571" scale="1 1 1"></a-entity>
+    <a-assets>
+<a-asset-item id='orio3' src='yamadakkkkkkkkk.gltf'></a-asset-item></a-assets>
+    <a-entity gltf-model="orio3"  gps-new-entity-place="latitude: 33.89033804267064; longitude: 130.71386179702472" scale="1 1 1"></a-entity>
 </a-scene>
 </body>
 </html>

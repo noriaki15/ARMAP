@@ -16,7 +16,7 @@
         </a-marker>
 
         <!-- 고정된 캐릭터 (마커가 사라졌을 때 나타남) -->
-        <a-entity id="characterFixed" position="0 0 1" rotation="0 0 0" scale="1 1 1" 
+        <a-entity id="characterFixed" position="0 0 0" rotation="0 0 0" scale="1 1 1" 
                   gltf-model="orio.gltf" visible="false">
         </a-entity>
 
@@ -39,7 +39,7 @@
             const newPosition = {
                 x: cameraPosition.x, 
                 y: cameraPosition.y, 
-                z: cameraPosition.z + 1  // 카메라에서 1미터 앞에 캐릭터를 표시
+                z: cameraPosition.z + 2  // 카메라에서 1미터 앞에 캐릭터를 표시
             };
 
             characterFixed.setAttribute('position', newPosition);

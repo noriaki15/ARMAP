@@ -27,26 +27,26 @@
     <script>
         const marker = document.querySelector('#marker1');
         const characterFixed = document.querySelector('#characterFixed');
-        const camera = document.querySelector('#camera');
 
-        // 마커를 잃었을 때 고정된 캐릭터 위치 표시
+        // 마커가 사라졌을 때 고정된 캐릭터 위치 표시
         marker.addEventListener('markerLost', function () {
-            // 카메라의 위치를 가져오기 전에 'camera'의 position이 정확히 반영되도록 해야합니다.
-            const cameraPosition = camera.getAttribute('position');
+            // 마커의 위치를 가져옵니다.
+            const markerPosition = marker.getAttribute('position');
             
-            console.log("Camera Position:", cameraPosition); // 디버깅용 콘솔 로그
+            console.log("Marker Position on Lost:", markerPosition); // 디버깅용 콘솔 로그
 
+            // 마커의 위치를 기준으로 고정된 캐릭터를 배치
             const newPosition = {
-                x: cameraPosition.x, 
-                y: cameraPosition.y, 
-                z: cameraPosition.z + 2  // 카메라에서 1미터 앞에 캐릭터를 표시
+                x: markerPosition.x, 
+                y: markerPosition.y, 
+                z: markerPosition.z + 1  // 마커 위치에서 1미터 앞에 캐릭터를 표시
             };
 
             characterFixed.setAttribute('position', newPosition);
             characterFixed.setAttribute('visible', true);  // 캐릭터를 표시합니다.
         });
 
-        // 마커를 찾았을 때 고정된 캐릭터 숨기기
+        // 마커가 다시 나타났을 때 고정된 캐릭터 숨기기
         marker.addEventListener('markerFound', function () {
             characterFixed.setAttribute('visible', false);
         });

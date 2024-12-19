@@ -11,14 +11,29 @@
     <a-scene embedded arjs>
         <!-- Hiro 마커를 사용한 캐릭터 -->
         <a-marker preset="hiro" id="marker1">
-            <a-entity id="character" position="0 0.5 0" rotation="-90 0 0" scale="0.5 0.5 0.5" 
+            <a-entity id="character1" position="0 0 0" rotation="-90 0 0" scale="0.5 0.5 0.5" 
                       gltf-model="orio.gltf"></a-entity>
         </a-marker>
 
-        <!-- 고정된 캐릭터 (마커가 사라졌을 때 나타남) -->
-        <a-entity id="characterFixed" position="0 0 0" rotation="0 0 0" scale="1 1 1" 
-                  gltf-model="orio.gltf" visible="false">
-        </a-entity>
+        <!-- 고정된 캐릭터들 (마커를 기준으로 순차적으로 배치) -->
+        <a-entity id="character2" position="1 0 0" rotation="0 0 0" scale="0.5 0.5 0.5" 
+                  gltf-model="orio.gltf" visible="false"></a-entity>
+        <a-entity id="character3" position="2 0 0" rotation="0 0 0" scale="0.5 0.5 0.5" 
+                  gltf-model="orio.gltf" visible="false"></a-entity>
+        <a-entity id="character4" position="3 0 0" rotation="0 0 0" scale="0.5 0.5 0.5" 
+                  gltf-model="orio.gltf" visible="false"></a-entity>
+        <a-entity id="character5" position="4 0 0" rotation="0 0 0" scale="0.5 0.5 0.5" 
+                  gltf-model="orio.gltf" visible="false"></a-entity>
+        <a-entity id="character6" position="5 0 0" rotation="0 0 0" scale="0.5 0.5 0.5" 
+                  gltf-model="orio.gltf" visible="false"></a-entity>
+        <a-entity id="character7" position="6 0 0" rotation="0 0 0" scale="0.5 0.5 0.5" 
+                  gltf-model="orio.gltf" visible="false"></a-entity>
+        <a-entity id="character8" position="7 0 0" rotation="0 0 0" scale="0.5 0.5 0.5" 
+                  gltf-model="orio.gltf" visible="false"></a-entity>
+        <a-entity id="character9" position="8 0 0" rotation="0 0 0" scale="0.5 0.5 0.5" 
+                  gltf-model="orio.gltf" visible="false"></a-entity>
+        <a-entity id="character10" position="9 0 0" rotation="0 0 0" scale="0.5 0.5 0.5" 
+                  gltf-model="orio.gltf" visible="false"></a-entity>
 
         <!-- AR 카메라 (사용자가 카메라를 들고 이동) -->
         <a-entity id="camera" camera></a-entity>
@@ -26,29 +41,43 @@
 
     <script>
         const marker = document.querySelector('#marker1');
-        const characterFixed = document.querySelector('#characterFixed');
+        const characters = [
+            document.querySelector('#character1'),
+            document.querySelector('#character2'),
+            document.querySelector('#character3'),
+            document.querySelector('#character4'),
+            document.querySelector('#character5'),
+            document.querySelector('#character6'),
+            document.querySelector('#character7'),
+            document.querySelector('#character8'),
+            document.querySelector('#character9'),
+            document.querySelector('#character10')
+        ];
 
-        // 마커가 사라졌을 때 고정된 캐릭터 위치 표시
+        // 마커가 사라졌을 때, 고정된 캐릭터들 배치
         marker.addEventListener('markerLost', function () {
             // 마커의 위치를 가져옵니다.
             const markerPosition = marker.getAttribute('position');
-            
-            console.log("Marker Position on Lost:", markerPosition); // 디버깅용 콘솔 로그
+            console.log("Marker Position on Lost:", markerPosition); // 디버깅용 로그
 
-            // 마커의 위치를 기준으로 고정된 캐릭터를 배치
-            const newPosition = {
-                x: markerPosition.x, 
-                y: markerPosition.y, 
-                z: markerPosition.z + 1  // 마커 위치에서 1미터 앞에 캐릭터를 표시
-            };
-
-            characterFixed.setAttribute('position', newPosition);
-            characterFixed.setAttribute('visible', true);  // 캐릭터를 표시합니다.
+            // 각 캐릭터를 마커 위치를 기준으로 순차적으로 배치
+            for (let i = 0; i < characters.length; i++) {
+                // 각 캐릭터는 마커의 위치에서 일정 거리를 두고 배치
+                const newPosition = {
+                    x: markerPosition.x + (i * 1),  // 각 캐릭터를 1미터 간격으로 배치
+                    y: markerPosition.y,
+                    z: markerPosition.z + 1  // 마커의 위치에서 1미터 앞에 배치
+                };
+                characters[i].setAttribute('position', newPosition);
+                characters[i].setAttribute('visible', true);  // 캐릭터를 표시
+            }
         });
 
-        // 마커가 다시 나타났을 때 고정된 캐릭터 숨기기
+        // 마커가 다시 나타났을 때, 고정된 캐릭터 숨기기
         marker.addEventListener('markerFound', function () {
-            characterFixed.setAttribute('visible', false);
+            characters.forEach(character => {
+                character.setAttribute('visible', false);  // 모든 캐릭터 숨기기
+            });
         });
     </script>
 </body>

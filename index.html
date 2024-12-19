@@ -16,7 +16,7 @@
         </a-marker>
 
         <!-- 고정된 캐릭터 (마커가 사라졌을 때 나타남) -->
-        <a-entity id="characterFixed" position="0 0 0" rotation="0 0 0" scale="0.2 0.2 0.2" 
+        <a-entity id="characterFixed" position="0 0 0" rotation="0 0 0" scale="1 1 1" 
                   gltf-model="orio.gltf" visible="false">
         </a-entity>
 
@@ -31,20 +31,24 @@
 
         // 마커를 잃었을 때 고정된 캐릭터 위치 표시
         marker.addEventListener('markerLost', function () {
+            // 카메라의 위치를 가져오기 전에 'camera'의 position이 정확히 반영되도록 해야합니다.
             const cameraPosition = camera.getAttribute('position');
+            
+            console.log("Camera Position:", cameraPosition); // 디버깅용 콘솔 로그
+
             const newPosition = {
                 x: cameraPosition.x, 
                 y: cameraPosition.y, 
-                z: cameraPosition.z + 1
+                z: cameraPosition.z + 1  // 카메라에서 1미터 앞에 캐릭터를 표시
             };
 
             characterFixed.setAttribute('position', newPosition);
-            characterFixed.setAttribute('visible', 'true');
+            characterFixed.setAttribute('visible', true);  // 캐릭터를 표시합니다.
         });
 
         // 마커를 찾았을 때 고정된 캐릭터 숨기기
         marker.addEventListener('markerFound', function () {
-            characterFixed.setAttribute('visible', 'false');
+            characterFixed.setAttribute('visible', false);
         });
     </script>
 </body>

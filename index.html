@@ -1,15 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>AR.js A-Frame Location-based</title>
-<script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-<script type='text/javascript' src='https://raw.githack.com/AR-js-org/AR.js/3.4.5/three.js/build/ar-threex-location-only.js'></script>
-<script type='text/javascript' src='https://raw.githack.com/AR-js-org/AR.js/3.4.5/aframe/build/aframe-ar.js'></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.01">
+    <title>AR.js Example</title>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
 </head>
-<body>
-<a-scene vr-mode-ui='enabled: false' arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false' renderer='antialias: true; alpha: true'>
-    <a-camera gps-new-camera='gpsMinDistance: 100000'></a-camera>
-    <a-entity gltf-model="yamadakkkkkkkkk.gltf" gps-new-entity-place="latitude: 33.89030148521514; longitude: 130.71299610325534" scale="1 1 1"></a-entity>
-</a-scene>
+<body style="margin: 0; overflow: hidden;">
+    <a-scene embedded arjs>
+        <a-marker preset="hiro" id="marker1">
+            <a-entity id="character" position="0 0.5 0" rotation="-90 0 0" scale="0.5 0.5 0.5" 
+                      gltf-model="orio.gltf"></a-entity>
+        </a-marker>
+
+        <a-entity id="characterFixed" position="0 0 0" rotation="0 0 0" scale="1 1 1" 
+                  gltf-model="orio.gltf" visible="false">
+        </a-entity>
+
+        <a-entity id="camera" camera orbit-controls="auto-rotate: true; enable-drag: true;">
+        </a-entity>
+    </a-scene>
+
+    <script>
+        const marker = document.querySelector('#marker1');
+        const characterFixed = document.querySelector('#characterFixed');
+        const camera = document.querySelector('#camera');
+
+        marker.addEventListener('markerLost', function () {
+            const cameraPosition = camera.getAttribute('position');
+            const newPosition = {
+                x: cameraPosition.x, 
+                y: cameraPosition.y, 
+                z: cameraPosition.z + 3
+            };
+
+            characterFixed.setAttribute('position', newPosition);
+            characterFixed.setAttribute('visible', 'true');
+        });
+
+        marker.addEventListener('markerFound', function () {
+            characterFixed.setAttribute('visible', 'false');
+        });
+    </script>
 </body>
 </html>

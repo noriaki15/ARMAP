@@ -9,17 +9,19 @@
 </head>
 <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs>
+        <!-- Hiro 마커를 사용한 캐릭터 -->
         <a-marker preset="hiro" id="marker1">
             <a-entity id="character" position="0 0.5 0" rotation="-90 0 0" scale="0.5 0.5 0.5" 
                       gltf-model="orio.gltf"></a-entity>
         </a-marker>
 
-        <a-entity id="characterFixed" position="0 0 1" rotation="0 0 0" scale="1 1 1" 
+        <!-- 고정된 캐릭터 (마커가 사라졌을 때 나타남) -->
+        <a-entity id="characterFixed" position="0 0 0" rotation="0 0 0" scale="1 1 1" 
                   gltf-model="orio.gltf" visible="false">
         </a-entity>
 
-        <a-entity id="camera" camera orbit-controls="auto-rotate: true; enable-drag: true;">
-        </a-entity>
+        <!-- AR 카메라 (사용자가 카메라를 들고 이동) -->
+        <a-entity id="camera" camera></a-entity>
     </a-scene>
 
     <script>
@@ -27,18 +29,20 @@
         const characterFixed = document.querySelector('#characterFixed');
         const camera = document.querySelector('#camera');
 
+        // 마커를 잃었을 때 고정된 캐릭터 위치 표시
         marker.addEventListener('markerLost', function () {
             const cameraPosition = camera.getAttribute('position');
             const newPosition = {
                 x: cameraPosition.x, 
                 y: cameraPosition.y, 
-                z: cameraPosition.z + 3
+                z: cameraPosition.z + 1
             };
 
             characterFixed.setAttribute('position', newPosition);
             characterFixed.setAttribute('visible', 'true');
         });
 
+        // 마커를 찾았을 때 고정된 캐릭터 숨기기
         marker.addEventListener('markerFound', function () {
             characterFixed.setAttribute('visible', 'false');
         });

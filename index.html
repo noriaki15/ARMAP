@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/ar.js/aframe/build/aframe-ar.min.js"></script>
-    <script src="https://unpkg.com/aframe-gps-camera/dist/aframe-gps-camera.min.js"></script>
 </head>
 <body style="margin: 0; overflow: hidden;">
     <a-scene 
         embedded 
         arjs="sourceType: webcam; gpsMinAccuracy: 500; debugUIEnabled: false;">
-
+        
         <a-entity 
             gps-entity-place="latitude: 33.864172411135485; longitude: 130.7122035296143;"
             gltf-model="orio.gltf"
@@ -17,31 +16,21 @@
         </a-entity>
 
         <a-entity 
-            id="text"
+            id="distance-text"
             gps-entity-place="latitude: 33.864172411135485; longitude: 130.7122035296143;"
             text="value: Calculating distance...; align: center; color: blue;"
-            scale="100 100 100">
+            scale="50 50 50">
         </a-entity>
 
         <a-camera gps-camera rotation-reader></a-camera>
     </a-scene>
 
     <script>
-      window.addEventListener('load', () => {
-        const text = document.getElementById('text');
         const targetLat = 33.864172411135485;
         const targetLon = 130.7122035296143;
 
-        document.querySelector('a-camera').addEventListener('gps-camera-update-position', (event) => {
-            const userLat = event.detail.position.latitude;
-            const userLon = event.detail.position.longitude;
-
-            const distance = calculateDistance(userLat, userLon, targetLat, targetLon);
-            text.setAttribute('text', `value: ${distance.toFixed(2)} meters left`);
-        });
-
         function calculateDistance(lat1, lon1, lat2, lon2) {
-            const R = 6371e3;
+            const R = 6371e3; 
             const toRad = (value) => (value * Math.PI) / 180;
 
             const φ1 = toRad(lat1);
@@ -57,7 +46,16 @@
 
             return R * c;
         }
-      });
+
+        document.querySelector("a-camera").addEventListener("gps-camera-update-position", (event) => {
+            const userLat = event.detail.position.latitude;
+            const userLon = event.detail.position.longitude;
+
+            const distance = calculateDistance(userLat, userLon, targetLat, targetLon);
+
+            const distanceText = document.querySelector("#distance-text");
+            distanceText.setAttribute("text", "value", `Distance: ${distance.toFixed(2)} meters`);
+        });
     </script>
 </body>
 </html>

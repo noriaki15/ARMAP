@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/ar.js/aframe/build/aframe-ar.min.js"></script>
+    <script src="https://unpkg.com/aframe-gps-camera/dist/aframe-gps-camera.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
 </head>
 <body style="margin: 0; overflow: hidden;">
     <a-scene 
@@ -12,6 +14,7 @@
         <a-entity 
             gps-entity-place="latitude: 33.863602785598175; longitude: 130.71261498402183;"
             gltf-model="orio.gltf"
+            look-at="[gps-camera]"
             scale="1 1 1">
         </a-entity>
 
@@ -19,6 +22,7 @@
             id="text"
             gps-entity-place="latitude: 33.863602785598175; longitude: 130.71261498402183;"
             text="value: Calculating distance...; align: center; color: blue;"
+            look-at="[gps-camera]"
             scale="100 100 100">
         </a-entity>
 

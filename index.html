@@ -12,7 +12,7 @@
         arjs="sourceType: webcam; gpsMinAccuracy: 500; debugUIEnabled: false;">
 
         <a-entity 
-            gps-entity-place="latitude: 33.863602785598175; longitude: 130.71261498402183;"
+            gps-entity-place="latitude: 33.864172411135485; longitude: 130.7122035296143;"
             gltf-model="orio.gltf"
             look-at="[gps-camera]"
             scale="1 1 1">
@@ -20,7 +20,7 @@
 
         <a-entity 
             id="text"
-            gps-entity-place="latitude: 33.863602785598175; longitude: 130.71261498402183;"
+            gps-entity-place="latitude: 33.864172411135485; longitude: 130.7122035296143;"
             text="value: Calculating distance...; align: center; color: blue;"
             look-at="[gps-camera]"
             scale="100 100 100">
@@ -32,8 +32,8 @@
     <script>
       window.addEventListener('load', () => {
         const text = document.getElementById('text');
-        const targetLat = 33.863602785598175;
-        const targetLon = 130.71261498402183;
+        const targetLat = 33.864172411135485;
+        const targetLon = 130.7122035296143;
 
         document.querySelector('a-camera').addEventListener('gps-camera-update-position', (event) => {
             const userLat = event.detail.position.latitude;

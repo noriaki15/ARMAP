@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>AR.js 간단한 거리 계산</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/ar.js/aframe/build/aframe-ar.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
 </head>
 <body style="margin: 0; overflow: hidden;">
     <a-scene 
@@ -11,52 +12,29 @@
         arjs="sourceType: webcam; gpsMinAccuracy: 1000; debugUIEnabled: false;">
         
         <a-entity 
-            gps-entity-place="latitude: 33.86375996264651; longitude: 130.71176732749817;"
+            gps-entity-place="latitude: 33.888015469898704; longitude: 130.7107229141166;"
             gltf-model="orio.gltf"
-            scale="5 5 5">
+            scale="2 2 2">
         </a-entity>
-
-        <a-entity 
-            id="distance-text"
-            gps-entity-place="latitude: 33.86375996264651; longitude: 130.71176732749817;"
-            text="value: Calculating distance...; align: center; color: blue;"
-            scale="50 50 50">
-        </a-entity>
-
+      <a-text
+        id="text"
+        value=""
+        look-at="[gps-camera]"
+        scale="20 20 20"
+        position="0 55 0"
+        gps-entity-place="latitude: 33.888015469898704; longitude: 130.7107229141166;"
+      ></a-text>
         <a-camera gps-camera rotation-reader></a-camera>
     </a-scene>
 
     <script>
-        const targetLat = 33.86375996264651;
-        const targetLon = 130.71176732749817;
-
-        function calculateDistance(lat1, lon1, lat2, lon2) {
-            const R = 6371e3; 
-            const toRad = (value) => (value * Math.PI) / 180;
-
-            const φ1 = toRad(lat1);
-            const φ2 = toRad(lat2);
-            const Δφ = toRad(lat2 - lat1);
-            const Δλ = toRad(lon2 - lon1);
-
-            const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-                      Math.cos(φ1) * Math.cos(φ2) *
-                      Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-            return R * c;
-        }
-
-        document.querySelector("a-camera").addEventListener("gps-camera-update-position", (event) => {
-            const userLat = event.detail.position.latitude;
-            const userLon = event.detail.position.longitude;
-
-            const distance = calculateDistance(userLat, userLon, targetLat, targetLon);
-
-            const distanceText = document.querySelector("#distance-text");
-            distanceText.setAttribute("text", "value", `Distance: ${distance.toFixed(2)} meters`);
+      window.addEventListener('load', () => {
+        const text = document.getElementById('text');
+        text.addEventListener('gps-entity-place-update-positon', (event) => {
+          document.getElementById('debug').textContent = `あと${event.detail.distance}m`;
+          text.setAttribute('value', text.getAttribute('distanceMsg') + ' left');
         });
+      });
     </script>
 </body>
 </html>

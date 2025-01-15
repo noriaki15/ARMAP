@@ -3,8 +3,6 @@
 <head>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/ar.js/aframe/build/aframe-ar.min.js"></script>
-    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
 </head>
 <body style="margin: 0; overflow: hidden;">
     <a-scene 
@@ -16,21 +14,48 @@
             gltf-model="orio.gltf"
             scale="1 1 1">
         </a-entity>
-      <a-entity 
+
+        <a-entity 
             id="text"
             gps-entity-place="latitude: 33.888015469898704; longitude: 130.7107229141166;"
             text="value: Calculating distance...; align: center; color: blue;"
             scale="50 50 50">
         </a-entity>
-      <a-camera gps-camera="gpsMinDistance:1000;" rotation-reader> </a-camera>
+
+        <a-camera gps-camera rotation-reader></a-camera>
     </a-scene>
+
     <script>
       window.addEventListener('load', () => {
         const text = document.getElementById('text');
-        text.addEventListener('gps-entity-place-update-positon', (event) => {
-          document.getElementById('debug').textContent = `あと${event.detail.distance}m`;
-          text.setAttribute('value', text.getAttribute('distanceMsg') + ' left');
+        const targetLat = 33.888015469898704;
+        const targetLon = 130.7107229141166;
+
+        document.querySelector('a-camera').addEventListener('gps-camera-update-position', (event) => {
+            const userLat = event.detail.position.latitude;
+            const userLon = event.detail.position.longitude;
+
+            const distance = calculateDistance(userLat, userLon, targetLat, targetLon);
+            text.setAttribute('text', `value: ${distance.toFixed(2)} meters left`);
         });
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371e3;
+            const toRad = (value) => (value * Math.PI) / 180;
+
+            const φ1 = toRad(lat1);
+            const φ2 = toRad(lat2);
+            const Δφ = toRad(lat2 - lat1);
+            const Δλ = toRad(lon2 - lon1);
+
+            const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+                      Math.cos(φ1) * Math.cos(φ2) *
+                      Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+            return R * c;
+        }
       });
     </script>
 </body>
